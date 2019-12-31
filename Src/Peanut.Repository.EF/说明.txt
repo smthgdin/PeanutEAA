@@ -1,0 +1,7 @@
+﻿
+Peanut.Repository.EF包含：
+1.基于EF的DbContext；
+2.抽象的Repository的实现；
+3.UoW实现。
+
+暂不做复杂的查询命令分离和事件追溯。
