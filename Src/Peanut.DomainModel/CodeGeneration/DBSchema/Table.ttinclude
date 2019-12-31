@@ -1,0 +1,57 @@
+﻿<#@ assembly name="System" #>
+<#@ assembly name="System.Data" #>
+
+<#+
+    public class Table
+    {
+        public Table(DataTable t)
+        {
+            this.PKs = this.GetPKList(t);
+            this.Columns = this.GetColumnList(t);
+            this.ColumnTypeNames = this.SetColumnNames();
+        }
+
+        public List<Column> PKs;
+
+        public List<Column> Columns;
+
+        public string ColumnTypeNames;
+        public List<Column> GetPKList(DataTable dt)
+        {
+            List<Column> list = new List<Column>();
+            Column c = null;
+            if (dt.PrimaryKey.Length > 0)
+            {
+                list = new List<Column>();
+                foreach (DataColumn dc in dt.PrimaryKey)
+                {
+                    c = new Column(dc);
+                    list.Add(c);
+                }
+            }
+            return list;
+        }
+
+        private List<Column> GetColumnList(DataTable dt)
+        {
+            List<Column> list = new List<Column>();
+            Column c = null;
+            foreach (DataColumn dc in dt.Columns)
+            {
+                c = new Column(dc);
+                list.Add(c);
+            }
+            return list;
+        }
+
+        private string SetColumnNames()
+        {
+            List<string> list = new List<string>();
+            foreach (Column c in this.Columns)
+            {
+                list.Add(string.Format("{0} {1}", c.TypeName, c.LowerColumnName));
+            }
+            return string.Join(",", list.ToArray());
+        }
+    }
+#>

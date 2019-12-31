@@ -1,0 +1,59 @@
+﻿<#@ assembly name="System" #>
+<#@ assembly name="System.Data" #>
+
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Data.SqlClient" #>
+
+<#+
+    public class SQLServerSchema : IDBSchema
+    {
+        private static string connectionString = "Data Source=192.168.0.97;Initial Catalog=WeChat_DB;Persist Security Info=True;User ID=WeChat;Password=zaq1XSW@";
+        private readonly SqlConnection dbConnection;
+
+        public SQLServerSchema()
+            :this(connectionString)
+        {
+            
+        }
+
+        public SQLServerSchema(string dbConnectionString)
+        {
+            connectionString = dbConnectionString;
+            dbConnection = new SqlConnection(connectionString);
+        }
+
+        public Table GetTableMetadata(string tableName)
+        {
+            if (dbConnection.State == ConnectionState.Closed)
+                dbConnection.Open();
+
+            var selectCmdText = $"SELECT * FROM {tableName}";
+            var command = new SqlCommand(selectCmdText, dbConnection);
+            var ad = new SqlDataAdapter(command);
+            var ds = new DataSet();
+            ad.FillSchema(ds, SchemaType.Mapped, tableName);
+
+            dbConnection.Close();
+
+            return new Table(ds.Tables[0]);
+        }
+
+        public List<string> GetTables()
+        {
+            if (dbConnection.State == ConnectionState.Closed)
+                dbConnection.Open();
+
+            var dt = dbConnection.GetSchema("Tables");
+            var list = new List<string>();
+            foreach (DataRow row in dt.Rows)
+            {
+                list.Add(row["TABLE_NAME"].ToString());
+            }
+
+            dbConnection.Close();
+
+            return list;
+        }
+    }
+#>

@@ -1,0 +1,59 @@
+﻿<#@ assembly name="System" #>
+<#@ assembly name="System.Data" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Threading.Tasks" #>
+
+<#@ include file="./DBSchema/MySQLSchema.ttinclude"#>
+<#@ include file="./DBSchema/OracleSchema.ttinclude"#>
+<#@ include file="./DBSchema/SQLServerSchema.ttinclude"#>
+<#@ include file="./DBSchema/IDBSchema.ttinclude"#>
+<#@ include file="./DBSchema/Column.ttinclude"#>
+<#@ include file="./DBSchema/Table.ttinclude"#>
+
+
+<#+
+    public class DBSchemaFactory
+    {
+        public static IDBSchema GetDBSchema(string dbType = "SqlServer")
+        {
+            IDBSchema dbSchema;
+
+            switch (dbType)
+            {
+                case "SqlServer":
+                    dbSchema = new SQLServerSchema();
+                    break;
+                case "MySql":
+                    dbSchema = new MySQLSchema();
+                    break;
+                case "Oracle":
+                    dbSchema = new OracleSchema();
+                    break;
+                default:
+                    throw new ArgumentException("The input argument of DatabaseType is invalid!");
+            }
+
+            return dbSchema;
+        }
+    }
+
+	public class GeneratorHelper
+    {
+        public static readonly string StringType = "String";
+        public static readonly string DateTimeType = "DateTime";
+        public static string GetQuesMarkByType(string typeName)
+        {
+            string result = typeName;
+            if (typeName == DateTimeType)
+            {
+                result += "?";
+            }
+            return result;
+        }
+    }
+
+#>

@@ -1,0 +1,22 @@
+﻿<#@ assembly name="System" #>
+<#@ assembly name="System.Data" #>
+
+<#@ import namespace="System.Data.SqlClient" #>
+
+<#+
+    public interface IDBSchema
+    {
+        /// <summary>
+        /// 获得所有表
+        /// </summary>
+        /// <returns></returns>
+        List<string> GetTables();
+
+        /// <summary>
+        /// 获得表结构
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        Table GetTableMetadata(string tableName);
+    }
+#>

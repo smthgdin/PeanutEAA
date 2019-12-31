@@ -1,0 +1,31 @@
+﻿<#@ assembly name="System" #>
+<#@ assembly name="System.Data" #>
+
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data" #>
+
+
+<#+
+    public class MySQLSchema : IDBSchema
+    {
+        public MySQLSchema()
+        {
+
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Table GetTableMetadata(string tableName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<string> GetTables()
+        {
+            throw new NotImplementedException();
+        }
+    }
+#>
