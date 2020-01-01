@@ -1,2 +1,2 @@
 # PeanutEAA
-A Clear enterprise application framework based on DDD
+A Clear enterprise application framework based on DDD.
