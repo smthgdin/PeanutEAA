@@ -70,8 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache\ICacheService.cs" />
-    <Compile Include="Cache\MemoryCache\MemoryCacheService.cs" />
-    <Compile Include="Cache\MemoryCache\RuntimeCacheManagerFactory.cs" />
     <Compile Include="Extensions\AutoMapperExtension.cs" />
     <Compile Include="Extensions\JSONExtension.cs" />
     <Compile Include="Helper\Clone\DeepCloneHelper.cs" />
@@ -90,9 +88,16 @@
     <Compile Include="IOC\LifetimePolicy.cs" />
     <Compile Include="Log\ILogInfo.cs" />
     <Compile Include="Log\ILogService.cs" />
+    <Compile Include="Log\ITraceInfo.cs" />
     <Compile Include="Log\LogLevel.cs" />
     <Compile Include="Mapping\AutoMapper\AutoMapperAdapter.cs" />
     <Compile Include="Mapping\AutoMapper\IMapperService.cs" />
+    <Compile Include="Notify\Email.cs" />
+    <Compile Include="Notify\IMessage.cs" />
+    <Compile Include="Notify\ISender.cs" />
+    <Compile Include="Notify\NormalNotify.cs" />
+    <Compile Include="Notify\Notify.cs" />
+    <Compile Include="Notify\SimpleMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\Basic\PeripheralSystem.cs" />
     <Compile Include="Security\Basic\PeripheralSystemCollection.cs" />
