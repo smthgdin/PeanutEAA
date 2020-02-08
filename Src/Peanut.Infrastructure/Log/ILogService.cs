@@ -14,18 +14,52 @@ namespace Peanut.Infrastructure.Log
     /// </summary>
     public interface ILogService
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
         void Info(string message);
 
-        void Info<T>(string message, T argument);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="message"></param>
+        /// <param name="argument"></param>
+        void Info<T>(T argument, string message = "");
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
         void Debug(string message);
 
-        void Debug<T>(string message, T argument);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="message"></param>
+        /// <param name="argument"></param>
+        void Debug<T>(T argument, string message = "");
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
         void Error(string message);
 
-        void Error<T>(string message, T argument);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="argument"></param>
+        /// <param name="message"></param>
+        void Error<T>(T argument, string message = "");
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ex"></param>
         void Error(Exception ex);
     }
 }

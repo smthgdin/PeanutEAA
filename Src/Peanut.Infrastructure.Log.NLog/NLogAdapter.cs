@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using NL = NLog;
 
@@ -33,7 +29,7 @@ namespace Peanut.Infrastructure.Log.NLog
             logger.Debug(message);
         }
 
-        public void Debug<T>(string message, T argument)
+        public void Debug<T>(T argument, string message = "")
         {
             logger.Debug(message, argument);
         }
@@ -46,43 +42,23 @@ namespace Peanut.Infrastructure.Log.NLog
         //需配合配置文件设置，目前实现是写入数据库，而且是不使用nlog预设属性的。
         public void Error(Exception ex)
         {
-            if (ex == null)
-                throw new ArgumentNullException();
-
-            //IUser user = User.CurrentUser;
-
-            //LogInfo info = new LogInfo
-            //{
-            //    LogLevel = LogLevel.Error,
-            //    LogTitle = ex.Message,
-            //    LogMessage = ex.StackTrace,
-            //    LogStackTrace = new StackTrace().ToString(),
-            //    LogTime = DateTime.Now,
-            //    UserId = user == null ? string.Empty : user.UserId
-            //};
-
-            //logger.Log(info.LogEventInfo);
+            logger.ErrorException(ex.Message, ex);
         }
 
-        public void Error(ILogInfo info)
+        public void Error<T>(T argument, string message = "")
         {
             LogEventInfo tmp = new LogEventInfo();
-            tmp.Properties["appName"] = info.AppName;
-            tmp.Properties["assemblyName"] = info.AssemblyName;
-            tmp.Properties["logTitle"] = info.Title;
-            tmp.Properties["logMessage"] = info.Message;
-            tmp.Properties["logTime"] = info.LogTime;
-            tmp.Properties["userId"] = info.UserId;
-            tmp.Properties["logLevel"] = NL.LogLevel.Error;
+
+            var properties = argument.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                var n = property.Name.Substring(0, 1).ToLower() + property.Name.Substring(1);
+                tmp.Properties[n] = property.GetValue(argument);
+            }
+
             tmp.Level = NL.LogLevel.Error;
-            tmp.LoggerName = "SqlLog";
 
             logger.Log(tmp);
-        }
-
-        public void Error<T>(string message, T argument)
-        {
-            logger.Error(message, argument);
         }
 
         public void Info(string message)
@@ -90,9 +66,20 @@ namespace Peanut.Infrastructure.Log.NLog
             logger.Info(message);
         }
 
-        public void Info<T>(string message, T argument)
+        public void Info<T>(T argument, string message = "")
         {
-            logger.Info(message, argument);
+            LogEventInfo tmp = new LogEventInfo();
+
+            var properties = argument.GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                var n = property.Name.Substring(0, 1).ToLower() + property.Name.Substring(1);
+                tmp.Properties[n] = property.GetValue(argument);
+            }
+
+            tmp.Level = NL.LogLevel.Info;
+
+            logger.Log(tmp);
         }
 
         public void Warn(string message)

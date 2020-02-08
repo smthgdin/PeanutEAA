@@ -28,7 +28,7 @@ namespace Peanut.Infrastructure.Cache.MemCached
     /// </summary>
     public static class CacheManagerFactory
     {
-        private static readonly MultiFileWatcher watcher;
+        private static readonly ConfigFileWatcher watcher;
         private static readonly object locker;
         private static readonly string filePath;                                    //EnyimClient自己里面写死读取 app.config文件
         private static readonly Dictionary<string, ICacheService> dicCacheClient; 
@@ -42,7 +42,7 @@ namespace Peanut.Infrastructure.Cache.MemCached
             filePath = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
 
             //将配置文件添加到监控中，并将事件处理器注册到事件
-            watcher = new MultiFileWatcher();
+            watcher = new ConfigFileWatcher();
             watcher.Watch(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
             watcher.OnChange += OnWatcherChanged;
 
