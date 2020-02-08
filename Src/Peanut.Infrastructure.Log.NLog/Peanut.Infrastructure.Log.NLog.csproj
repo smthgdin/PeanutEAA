@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseInfo.cs" />
     <Compile Include="LogInfo.cs" />
     <Compile Include="NLogAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
