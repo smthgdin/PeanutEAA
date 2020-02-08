@@ -1,23 +1,11 @@
-﻿/*********************************************************************** 
- * 项目名称 :  Fits.Framework.Cache   
- * 项目描述 :      
- * 类 名 称 :  ICacheManager 
- * 说    明 :      
- * 作    者 :  XHT 
- * 创建时间 :  2014/11/10 15:39:30 
- * 更新时间 :  2014/11/10 15:39:30  
-************************************************************************ 
- * Copyright @   2014. All rights reserved. 
-************************************************************************/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 
 namespace Peanut.Infrastructure.Cache
 {
     /// <summary>
-    /// ICacheManager接口
+    /// 缓存接口
     /// 
     /// 目的：
     ///     1.分布式缓存管理API
