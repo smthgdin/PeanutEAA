@@ -50,11 +50,6 @@
     <Compile Include="DomainModel\EntityAbstract\IModificationProfile.cs" />
     <Compile Include="DomainModel\EntityAbstract\IDeleteProfile.cs" />
     <Compile Include="DomainModel\EntityAbstract\IEntity.cs" />
-    <Compile Include="DomainModel\ModelTemple.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ModelTemple.tt</DependentUpon>
-    </Compile>
     <Compile Include="DomainModel\Order\CustomerInfo.cs" />
     <Compile Include="DomainModel\Order\ICustomerInfo.cs" />
     <Compile Include="DomainModel\Order\IOrder.cs" />
@@ -68,10 +63,6 @@
     <Folder Include="DomainService\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DomainModel\ModelTemple.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ModelTemple.cs</LastGenOutput>
-    </Content>
     <Content Include="说明.txt" />
   </ItemGroup>
   <ItemGroup>

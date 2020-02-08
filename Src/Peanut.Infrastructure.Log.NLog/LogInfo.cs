@@ -13,30 +13,23 @@ namespace Peanut.Infrastructure.Log.NLog
     /// 使用规范：
     ///     
     /// </summary>
-    public class NLogInfo : ILogInfo
+    public class NLogInfo : BaseInfo, ILogInfo
     {
-        /// <summary>
-        /// 构造函数
-        /// 初始化基类属性Level默认值（默认等级Error），未初始化会抛出“未将对象引用设置到对象的实例。”异常
-        /// </summary>
+        string appName;
+        string actionName;
+        string className;
+        string title;
+        LogLevel level;
+        string message;
+        string logStackTrace;
+        DateTime logTime;
+
         public NLogInfo()
         {
-            //初始化 默认初始化等级为Error,目的是避免配置文件中,路由规则高于默认等级，而代码又没有指定等级，会不写日志
-            LogEventInfo = new NL.LogEventInfo { Level = NL.LogLevel.Error };
+            LogEvent = new NL.LogEventInfo();
         }
 
-        #region 属性
-
-        #region 定义LogEventInfo对象，将LogInfo对象的属性转到LogEventInfo特定的属性时用到
-
-        /// <summary>
-        /// NLog里的日志事件参数
-        /// </summary>
-        internal NL.LogEventInfo LogEventInfo { get; set; }
-
-        #endregion
-
-        private string appName;
+        #region 接口实现
 
         /// <summary>
         /// 应用程序名称
@@ -55,26 +48,22 @@ namespace Peanut.Infrastructure.Log.NLog
             }
         }
 
-        private string assemblyName;
-
         /// <summary>
-        /// 程序集名称
+        /// 操作名称
         /// </summary>
-        public string AssemblyName
+        public string ActionName
         {
             get
             {
-                return assemblyName;
+                return actionName;
             }
 
             set
             {
-                assemblyName = value;
-                SetBaseTypeProperties("assemblyName", value);
+                actionName = value;
+                SetBaseTypeProperties("actionName", value);
             }
         }
-
-        private string className;
 
         /// <summary>
         /// 类名
@@ -93,27 +82,6 @@ namespace Peanut.Infrastructure.Log.NLog
             }
         }
 
-        private string methodName;
-
-        /// <summary>
-        /// 方法名
-        /// </summary>
-        public string MethodName
-        {
-            get
-            {
-                return methodName;
-            }
-
-            set
-            {
-                methodName = value;
-                SetBaseTypeProperties("methodName", value);
-            }
-        }
-
-        private string title;
-
         /// <summary>
         /// 日志信息头
         /// 如果是异常，对应异常的message属性
@@ -131,8 +99,6 @@ namespace Peanut.Infrastructure.Log.NLog
                 SetBaseTypeProperties("logTitle", value);
             }
         }
-
-        private LogLevel level;
 
         /// <summary>
         /// 日志等级
@@ -175,13 +141,11 @@ namespace Peanut.Infrastructure.Log.NLog
                         break;
                 }
 
-                LogEventInfo.Level = nlogLevel;
+                LogEvent.Level = nlogLevel;
 
                 SetBaseTypeProperties("logLevel", nlogLevel);
             }
         }
-
-        private string message;
 
         /// <summary>
         /// 日志信息
@@ -198,13 +162,11 @@ namespace Peanut.Infrastructure.Log.NLog
             set
             {
                 message = value;
-                LogEventInfo.Message = Title + ":" + value;
+                LogEvent.Message = Title + ":" + value;
 
                 SetBaseTypeProperties("logMessage", value);
             }
         }
-
-        private string logStackTrace;
 
         /// <summary>
         /// 日志堆栈信息
@@ -220,13 +182,11 @@ namespace Peanut.Infrastructure.Log.NLog
             set
             {
                 logStackTrace = value;
-                LogEventInfo.Message = value;
+                LogEvent.Message = value;
 
                 SetBaseTypeProperties("logStackTrace", value);
             }
         }
-
-        private DateTime logTime;
 
         /// <summary>
         /// 日志记录时间
@@ -241,13 +201,13 @@ namespace Peanut.Infrastructure.Log.NLog
             set
             {
                 logTime = value;
-                LogEventInfo.TimeStamp = value;
+                LogEvent.TimeStamp = value;
 
                 SetBaseTypeProperties("logTime", value);
             }
         }
 
-        private string userId;
+        string userId;
 
         /// <summary>
         /// 登录用户名
@@ -267,17 +227,23 @@ namespace Peanut.Infrastructure.Log.NLog
             }
         }
 
-        #endregion
+        string assemblyName;
 
-        /// <summary>
-        /// 当设置LogInfo的属性时，会调用该方法，同时设置LogEventInfo对象的Properties字典的值
-        /// 对应日志配置文件的event-context参数
-        /// </summary>
-        /// <param name="key">跟配置文件的key一样</param>
-        /// <param name="value">对应的值</param>
-        protected void SetBaseTypeProperties(string key, object value)
+        public string AssemblyName
         {
-            LogEventInfo.Properties[key] = value;
+            get
+            {
+                return assemblyName;
+            }
+
+            set
+            {
+                assemblyName = value;
+
+                SetBaseTypeProperties("assemblyName", value);
+            }
         }
+
+        #endregion
     }
 }
