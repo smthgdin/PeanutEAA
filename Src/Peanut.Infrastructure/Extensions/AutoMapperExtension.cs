@@ -21,18 +21,18 @@ namespace Peanut.Infrastructure.Extension.AutoMapper
         /// 扩展AutoMapper
         /// 源对象.MapTo<目标类型>() 得到目标对象实例。
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TDestination"></typeparam>
         /// <param name="sourceObject"></param>
         /// <returns></returns>
-        public static T MapTo<T>(this object sourceObject)
+        public static TDestination MapTo<TDestination>(this object sourceObject)
         {
             if (sourceObject == null)
-                return default(T);
+                return default(TDestination);
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap(sourceObject.GetType(), typeof(T)));
+            var config = new MapperConfiguration(cfg => cfg.CreateMap(sourceObject.GetType(), typeof(TDestination)));
             var mapper = config.CreateMapper();
 
-            return Mapper.Map<T>(sourceObject);
+            return Mapper.Map<TDestination>(sourceObject);
         }
 
         /// <summary>
@@ -52,22 +52,6 @@ namespace Peanut.Infrastructure.Extension.AutoMapper
             var mapper = config.CreateMapper();
 
             return mapper.Map<List<TDestination>>(sourceObject);
-        }
-
-        /// <summary>
-        /// 扩展AutoMapper
-        /// 针对IEnumerable<TSource>
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <typeparam name="TDestination"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static List<TDestination> MapToList<TSource, TDestination>(this IEnumerable<TSource> source)
-        {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<TSource, TDestination>());
-            var mapper = config.CreateMapper();
-
-            return mapper.Map<List<TDestination>>(source);
         }
     }
 }
