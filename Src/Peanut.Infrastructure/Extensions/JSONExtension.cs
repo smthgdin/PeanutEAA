@@ -17,7 +17,12 @@ namespace Peanut.Infrastructure.Extension.JSON
     /// </summary>
     public static class JSONExtension
     {
-        public static HttpResponseMessage ToJSON(this object obj)
+        /// <summary>
+        /// 将Object对象转换成HttpResponseMessage
+        /// </summary>
+        /// <param name="obj">Object对象</param>
+        /// <returns>HttpResponseMessage</returns>
+        public static HttpResponseMessage ToJSONResult(this object obj)
         {
             string jsonString;
 
@@ -30,6 +35,11 @@ namespace Peanut.Infrastructure.Extension.JSON
                 new HttpResponseMessage { Content = new StringContent(jsonString, Encoding.GetEncoding("UTF-8"), "application/json") };
         }
 
+        /// <summary>
+        /// 将Object对象转换成JSON字符串
+        /// </summary>
+        /// <param name="obj">Object对象</param>
+        /// <returns>JSON字符串</returns>
         public static string ToJSONString(this object obj)
         {
             if (obj is ValueType)
@@ -38,12 +48,19 @@ namespace Peanut.Infrastructure.Extension.JSON
             return JsonConvert.SerializeObject(obj);
         }
 
-        public static T ToObject<T>(this string jsonString) where T : new()
+        /// <summary>
+        /// 将JSON字符串转成类型对象实例
+        /// </summary>
+        /// <typeparam name="TDestination">类型对象</typeparam>
+        /// <param name="jsonString">JSON字符串</param>
+        /// <returns>类型对象实例</returns>
+        public static TDestination ToObject<TDestination>(this string jsonString) 
+            where TDestination : new()
         {
             if (string.IsNullOrWhiteSpace(jsonString))
-                return default(T);
+                return default(TDestination);
 
-            return JsonConvert.DeserializeObject<T>(jsonString);
+            return JsonConvert.DeserializeObject<TDestination>(jsonString);
         }
     }
 }
